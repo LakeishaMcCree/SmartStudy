@@ -34,3 +34,4 @@ C:\Users\lmccr\dev\SmartStudy\backend\SmartStudy.Api\obj\Debug\net10.0\ref\Smart
 C:\Users\lmccr\dev\SmartStudy\backend\SmartStudy.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\lmccr\dev\SmartStudy\backend\SmartStudy.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\lmccr\dev\SmartStudy\backend\SmartStudy.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\lmccr\dev\SmartStudy\backend\SmartStudy.Api\obj\Debug\net10.0\SmartStudy.Api.sourcelink.json
