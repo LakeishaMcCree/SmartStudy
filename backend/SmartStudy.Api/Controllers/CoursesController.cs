@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SmartStudy.Api.Data;
 using SmartStudy.Api.Models;
 
 namespace SmartStudy.Api.Controllers
@@ -7,16 +9,28 @@ namespace SmartStudy.Api.Controllers
     [Route("api/[controller]")]
     public class CoursesController : ControllerBase
     {
-        [HttpGet]
-        public ActionResult<IEnumerable<Course>> GetCourses()
+        private readonly AppDbContext _context;
+        public CoursesController(AppDbContext context)
         {
-            var courses = new List<Course>
-            {
-                new Course { Id = 1, Name = "Math", Instructor = "Mrs. Johnson", Color = "Red" },
-                new Course { Id = 2, Name = "Science", Instructor = "Mr. Smith", Color = "Green"}
-            };
+            _context = context;
+        }
 
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Course>>> GetCourses()
+        {
+            var courses = await _context.Courses.ToListAsync();
             return Ok(courses);
+
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Course>> PostCourse(Course course)
+        {
+            _context.Courses.Add(course);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetCourses), new { id = course.Id }, course);
         }
     }
 }
