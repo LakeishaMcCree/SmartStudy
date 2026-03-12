@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SmartStudy.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0cb2df262bb7b13a2b24938d87e216789bbf0a04")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f3605d589f2d2ac79284ee93f5e5fc6545e29e61")]
 [assembly: System.Reflection.AssemblyProductAttribute("SmartStudy.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SmartStudy.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
