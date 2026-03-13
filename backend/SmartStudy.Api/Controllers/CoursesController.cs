@@ -32,5 +32,18 @@ namespace SmartStudy.Api.Controllers
 
             return CreatedAtAction(nameof(GetCourses), new { id = course.Id }, course);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCourse(int id, Course updatedcourse)
+        {
+            if (id != updatedcourse.Id)
+            {
+                return BadRequest ();
+            }
+             _context.Entry(updatedcourse).State = EntityState.Modified;
+             await _context.SaveChangesAsync();
+       
+            return NoContent();
+        }
     }
 }
