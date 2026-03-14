@@ -76,5 +76,21 @@ namespace SmartStudy.Api.Controllers
             return NoContent();
         }
 
+        [HttpPut("{id}/complete")]
+        public async Task<IActionResult> MarkComplete(int id)
+        {
+            var assignment = await _context.Assignments.FindAsync(id);
+            
+            if (assignment == null)
+            {
+                return NotFound();
+            }
+
+            assignment.IsComplete = true;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
     }
 }
