@@ -39,5 +39,42 @@ namespace SmartStudy.Api.Controllers
             return CreatedAtAction(nameof(GetAssignments), new { id = assignment.Id }, assignment);
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAssignment(int id, Assignment updatedAssignment)
+        {
+            if (id != updatedAssignment.Id)
+            {
+                return BadRequest();
+            }
+
+            var courseExists = await _context.Courses.AnyAsync(c => c.Id == updatedAssignment.CourseId);
+           
+            if (!courseExists)
+            {
+                return BadRequest("Invalid CourseId.");
+            }
+
+            _context.Entry(updatedAssignment).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAssignment(int id)
+        {
+            var assignment = await _context.Assignments.FindAsync(id);
+            
+            if (assignment == null)
+            {
+                return NotFound();
+            }
+
+            _context.Assignments.Remove(assignment);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
     }
 }
