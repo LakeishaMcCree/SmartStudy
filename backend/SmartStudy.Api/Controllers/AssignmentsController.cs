@@ -38,5 +38,6 @@ namespace SmartStudy.Api.Controllers
 
             return CreatedAtAction(nameof(GetAssignments), new { id = assignment.Id }, assignment);
         }
+
     }
 }
