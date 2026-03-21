@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 
 function App() {
   const [courses, setCourses] = useState([]);
+  const [assignments, setAssignments] = useState([]);
   const [name, setName] = useState("");
   const [instructor, setInstructor] = useState("");
   const [color, setColor] = useState("");
@@ -12,13 +13,22 @@ function App() {
       .then((data) => setCourses(data))
       .catch((error) => console.error("Error fetching courses:", error));
   };
+
+  const fetchAssignments = () => {
+    fetch("http://localhost:5209/api/assignments")
+      .then((response) => response.json())
+      .then((data) => setAssignments(data))
+      .catch((error) => console.error("Error fetching assignments:", error));
+  };
   
   useEffect(() => {
     fetchCourses();
+    fetchAssignments();
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     const newCourse = { 
       name, 
       instructor, 
@@ -88,6 +98,15 @@ function App() {
         {courses.map((course) => (
           <li key={course.id}>
             {course.name} - {course.instructor} - {course.color}
+          </li>
+        ))}
+      </ul>
+
+      <h2>Assignments</h2>
+      <ul>
+        {assignments.map((assignment) => (
+          <li key={assignment.id}>
+            {assignment.title} - Due: {assignment.dueDate} - Course ID: {assignment.courseId}
           </li>
         ))}
       </ul>
