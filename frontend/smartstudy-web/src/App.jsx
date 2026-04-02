@@ -3,9 +3,16 @@ import {useEffect, useState} from 'react';
 function App() {
   const [courses, setCourses] = useState([]);
   const [assignments, setAssignments] = useState([]);
+  
   const [name, setName] = useState("");
   const [instructor, setInstructor] = useState("");
   const [color, setColor] = useState("");
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [priority, setPriority] = useState("");
+  const [courseId, setCourseId] = useState("");
 
   const fetchCourses = () => {
     fetch("http://localhost:5209/api/courses")
@@ -57,6 +64,43 @@ function App() {
     }
   };
 
+  const handleAssignmentSubmit = async (e) => {
+    e.preventDefault();
+
+    const newAssignment = {
+      title,
+      description,
+      dueDate,
+      priority,
+      isComplete: false,
+      courseId: Number(courseId),
+    };
+
+    try {
+      const response = await fetch("http://localhost:5209/api/assignments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newAssignment)
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create assignment");
+      }
+
+      setTitle("");
+      setDescription("");
+      setDueDate("");
+      setPriority("");
+      setCourseId("");
+      fetchAssignments();
+    } catch (error) {
+      console.error("Error creating assignment:", error);
+    }
+  };
+
+
   return (
     <div>
       <h1>SmartStudy Dashboard</h1>
@@ -101,6 +145,56 @@ function App() {
           </li>
         ))}
       </ul>
+
+      <h2>Add Assignment</h2>
+      <form onSubmit={handleAssignmentSubmit}>
+        <div>
+          <input
+            type="text"
+            placeholder="Assignment Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <input
+            type="text"
+            placeholder="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <input
+            type="date"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <select
+            value={priority}
+            onChange={(e) => setPriority(e.target.value)}
+          >
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        </div>
+
+        <div>
+          <input
+            type="number"
+            placeholder="Course ID"
+            value={courseId}
+            onChange={(e) => setCourseId(e.target.value)}
+          />
+        </div>
+        <button type="submit">Add Assignment</button>
+      </form>
 
       <h2>Assignments</h2>
       <ul>
