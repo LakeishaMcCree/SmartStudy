@@ -119,6 +119,27 @@ function App() {
     }
   };
 
+  const deleteCourse = async (id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5209/api/courses/${id}`, 
+        {
+          method: "DELETE",
+        }
+      );
+    
+      if (!response.ok) {
+        throw new Error("Failed to delete course");
+      }
+
+      fetchCourses();
+      fetchAssignments();
+    }
+    catch (error) {
+      console.error("Error deleting course:", error);
+    }
+  };
+
   return (
     <div>
       <h1>SmartStudy Dashboard</h1>
@@ -160,6 +181,7 @@ function App() {
         {courses.map((course) => (
           <li key={course.id}>
             {course.name} - {course.instructor} - {course.color}
+            <button onClick={() => deleteCourse(course.id)}>Delete</button>
           </li>
         ))}
       </ul>
