@@ -100,6 +100,24 @@ function App() {
     }
   };
 
+  const markComplete = async (id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5209/api/assignments/${id}/complete`, 
+        {
+          method: "PUT",
+        }
+    );
+
+      if (!response.ok) {
+        throw new Error("Failed to mark assignment as complete");
+      }
+
+      fetchAssignments();
+    } catch (error) {
+      console.error("Error marking assignment as complete:", error);
+    }
+  };
 
   return (
     <div>
@@ -204,6 +222,14 @@ function App() {
           return (
             <li key={assignment.id}>
               {assignment.title} - Due: {assignment.dueDate} - Course: {course ? course.name : "Unknown"}
+
+              {assignment.isComplete ? (
+                <span> (Completed)</span> 
+              ) : (
+                <button onClick={() => markComplete(assignment.id)}> 
+                  Mark Complete
+                </button>
+              )}
             </li>
           );
         })}
