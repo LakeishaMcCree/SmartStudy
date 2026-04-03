@@ -198,11 +198,15 @@ function App() {
 
       <h2>Assignments</h2>
       <ul>
-        {assignments.map((assignment) => (
-          <li key={assignment.id}>
-            {assignment.title} - Due: {assignment.dueDate} - Course ID: {assignment.courseId}
-          </li>
-        ))}
+        {assignments.map((assignment) => { 
+          const course = courses.find((c) => c.id === assignment.courseId);
+          
+          return (
+            <li key={assignment.id}>
+              {assignment.title} - Due: {assignment.dueDate} - Course: {course ? course.name : "Unknown"}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
