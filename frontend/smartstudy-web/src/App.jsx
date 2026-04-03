@@ -140,6 +140,26 @@ function App() {
     }
   };
 
+  const deleteAssignment = async (id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5209/api/assignments/${id}`, 
+        {
+          method: "DELETE",
+        }
+      );
+    
+      if (!response.ok) {
+        throw new Error("Failed to delete assignment");
+      }
+
+      fetchAssignments();
+    }
+    catch (error) {
+      console.error("Error deleting assignment:", error);
+    }
+  };
+
   return (
     <div>
       <h1>SmartStudy Dashboard</h1>
@@ -252,6 +272,10 @@ function App() {
                   Mark Complete
                 </button>
               )}
+
+              <button onClick={() => deleteAssignment(assignment.id)}>
+                Delete
+              </button>
             </li>
           );
         })}
