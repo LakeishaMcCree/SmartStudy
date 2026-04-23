@@ -28,10 +28,13 @@ namespace SmartStudy.Api.Controllers
         public async Task<ActionResult<Assignment>> CreateAssignment(Assignment assignment)
         {
             var courseExists = await _context.Courses.AnyAsync(c => c.Id == assignment.CourseId);
+           
             if (!courseExists)            
             {
                 return BadRequest("Invalid CourseId. The selected course does not exist.");
             }
+
+            assignment.DueDate = DateTime.SpecifyKind(assignment.DueDate, DateTimeKind.Utc);
 
             _context.Assignments.Add(assignment);
             await _context.SaveChangesAsync();
